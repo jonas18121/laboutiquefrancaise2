@@ -8,8 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class RegisterType extends AbstractType
 {
@@ -34,18 +35,23 @@ class RegisterType extends AbstractType
                     'placeholder' => 'jDoe@gmail.com'
                 ]
             ])
-            ->add('password', PasswordType::class, [
-                'label' => 'Votre mot de passe',
-                'attr' => [
-                    'placeholder' => '************'
-                ]
-            ])
-            ->add('password_confirm', PasswordType::class, [
-                'label' => 'Confirmez votre mot de passe',
-                'mapped' => false,
-                'attr' => [
-                    'placeholder' => '************'
-                ]
+            ->add('password', RepeatedType::class, [ // RepeatedType permet de répéter 2 fois un input
+                'type' => PasswordType::class, // Ici on précise que les 2 inputs seront de type password
+                'invalid_message' => 'Le mot de passe et le confirmation doivent être identique', // Le message sera sur le 1er input
+                'required' => true,
+                'first_options' => [ // Ici on configure le 1er input
+                    'label' => 'Mot de passe',
+                    'attr' => [
+                        'placeholder' => '************'
+                    ]
+                ],
+                'second_options' => [ // Ici on configure le 2èmes input
+                    'label' => 'Confirmez votre mot de passe',
+                    'attr' => [
+                        'placeholder' => '************'
+                    ]
+                ],
+                
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "S'inscrire"
