@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Validator\Constraints\Length;
 
 class RegisterType extends AbstractType
 {
@@ -21,19 +22,37 @@ class RegisterType extends AbstractType
                 'label' => 'Votre prénom',
                 'attr' => [
                     'placeholder' => 'Jhon'
-                ]
+                ],
+                'constraints' => new Length([
+                    'min' => 2,
+                    'minMessage' => 'Le nombre de caractères est trop petit.',
+                    'max' => 255,
+                    'maxMessage' => 'Le nombre de caractères est trop grand.',
+                ])
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Votre nom',
                 'attr' => [
                     'placeholder' => 'Doe'
-                ]
+                ],
+                'constraints' => new Length([
+                    'min' => 2,
+                    'minMessage' => 'Le nombre de caractères est trop petit.',
+                    'max' => 255,
+                    'maxMessage' => 'Le nombre de caractères est trop grand.',
+                ])
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Votre email',
                 'attr' => [
                     'placeholder' => 'jDoe@gmail.com'
-                ]
+                ],
+                'constraints' => new Length([
+                    'min' => 2,
+                    'minMessage' => 'Le nombre de caractères est trop petit.',
+                    'max' => 150,
+                    'maxMessage' => 'Le nombre de caractères est trop grand.',
+                ])
             ])
             ->add('password', RepeatedType::class, [ // RepeatedType permet de répéter 2 fois un input
                 'type' => PasswordType::class, // Ici on précise que les 2 inputs seront de type password
