@@ -1,16 +1,36 @@
+body {
+    min-height: 91.5vh;
+    /* height: 91.5vh; */
+    margin: 5.2rem 0 0;
+    padding-bottom: 11rem;
+    position: relative;
+    box-sizing: border-box;
+}
+
 .navbar-item-custom, .navbar-item-custom a {
     color: #fff;
 }
 
-.footer-custom-footer {
+/* .footer-custom-footer {
     text-align: center;
     position: fixed;
     bottom: 0;
     width: 100%;
     background-color: #dfeaff;
     padding-top: 25px;
-}
+} */
 
+.footer-custom-footer {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #dfeaff;
+    padding-top: 25px;
+    height: 10rem;
+}
 .footer-custom-footer .back-top {
     padding: 0 10px;
 }
