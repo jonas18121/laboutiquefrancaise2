@@ -1,7 +1,6 @@
 body {
-    min-height: 91.5vh;
-    /* height: 91.5vh; */
-    margin: 5.2rem 0 0;
+    min-height: 100vh;
+    /* margin: 5.2rem 0 0; */
     padding-bottom: 11rem;
     position: relative;
     box-sizing: border-box;
