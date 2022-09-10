@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,44 @@ class ProductRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * Cherche des produits en fonction de la recherche de l'user
+     *
+     * @param Search $search
+     * @return Product[]|null
+     */
+    public function findWithSearch(Search $search)
+    {
+        $query = $this->createQueryBuilder('p') // le mapping est fait sur la table Product
+            ->select('c', 'p')
+            ->join('p.category', 'c');
+
+        // Si l'user a choisi une ou plusieurs catégorie depuis la checkbox, on l'affiche
+        if (!empty($search->getCategories())) {
+            $query = $query
+            ->andWhere('c.id IN (:searchCategories)')
+            ->setParameter('searchCategories', $search->getCategories());
+        }
+
+        
+        if (!empty($search->getString())) {
+            $query = $query
+
+            // Si l'user a écrit le nom d'un produit depuis l'input, on l'affiche
+            ->orWhere('p.name LIKE :searchName')
+            ->setParameter('searchName', "%{$search->getString()}%") // La recherche est partielle donc, 
+            //si on ecrit "bon", on va afficher tous les produits qui contiennent "bon"
+
+            // Si l'user a écrit le prix d'un produit depuis l'input, on l'affiche
+            ->orWhere('p.price LIKE :searchPrice')
+            ->setParameter('searchPrice', "%{$search->getString()}%");
+        }
+
+        // dd($query->getQuery()->getResult());
+
+        return $query->getQuery()->getResult();
     }
 
 //    /**
