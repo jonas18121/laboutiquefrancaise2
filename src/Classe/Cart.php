@@ -39,7 +39,7 @@ Class Cart
     /**
      * Display products into cart
      *
-     * @return void
+     * @return array
      */
     public function get()
     {
