@@ -68,6 +68,12 @@ class Address
      */
     private $phone;
 
+    public function __toString()
+    {
+        // On va transformer les [br] dans templates/order/index.html.twig
+        return $this->getName() . '[br]' . $this->getAddress() . '[br]' . $this->getCity() . '-' . $this->getCountry();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
