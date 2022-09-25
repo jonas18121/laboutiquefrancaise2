@@ -32,6 +32,12 @@ class Carrier
      */
     private $price;
 
+    public function __toString()
+    {
+        // On va transformer les [br] dans templates/order/index.html.twig
+        return $this->getName() . '[br]' . $this->getDescription() . '[br]' . number_format($this->getPrice(), 2, ',', ',') . ' €';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
