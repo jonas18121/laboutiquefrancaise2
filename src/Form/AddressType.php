@@ -19,56 +19,57 @@ class AddressType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Quel nom souhaitez-vous donner à votre adresse ?',
                 'attr' => [
-                    'placerholder' => 'Nommez votre adresse'
+                    'placeholder' => 'Nommez votre adresse'
                 ]
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Votre prénom',
                 'attr' => [
-                    'placerholder' => 'Entrez votre prénom'
+                    'placeholder' => 'Entrez votre prénom'
                 ]
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Votre nom',
                 'attr' => [
-                    'placerholder' => 'Entrez votre prénom'
+                    'placeholder' => 'Entrez votre prénom'
                 ]
             ])
             ->add('company', TextType::class, [
+                'required' => false,
                 'label' => 'Votre société (facultatif)',
                 'attr' => [
-                    'placerholder' => 'entrez le nom de votre société'
+                    'placeholder' => 'entrez le nom de votre société'
                 ]
             ])
             ->add('address', TextType::class, [
                 'label' => 'Votre adresse',
                 'attr' => [
-                    'placerholder' => 'Entrez votre adresse'
+                    'placeholder' => 'Entrez votre adresse'
                 ]
             ])
             ->add('postal', TextType::class, [
                 'label' => 'Votre  code postal',
                 'attr' => [
-                    'placerholder' => 'Votre  code postal'
+                    'placeholder' => 'Votre  code postal'
                 ]
             ])
             ->add('city', TextType::class, [
                 'label' => 'Votre  ville',
                 'attr' => [
-                    'placerholder' => 'Votre ville'
+                    'placeholder' => 'Votre ville'
                 ]
             ])
             ->add('country', CountryType::class, [
                 'label' => 'Pays',
                 'attr' => [
-                    'placerholder' => 'Votre Pays',
+                    'placeholder' => 'Votre Pays',
                     'class' => "form-control"
                 ]
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Votre téléphone',
                 'attr' => [
-                    'placerholder' => 'Votre téléphone'
+                    'placeholder' => 'Votre téléphone'
                 ]
             ])
             ->add('submit', SubmitType::class, [
