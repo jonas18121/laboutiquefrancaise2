@@ -88,3 +88,17 @@ body {
     padding: 20px;
     margin-top: 22px;
 }
+
+/* addFlash */
+.bm-alert, 
+.bm-success {
+    color: #fff;
+}
+
+.bm-alert {
+    background-color: rgb(167, 24, 24);
+}
+
+.bm-success {
+    background-color: rgb(24, 167, 72);
+}

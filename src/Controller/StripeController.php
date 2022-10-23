@@ -4,21 +4,36 @@ namespace App\Controller;
 
 use Stripe\Stripe;
 use App\Classe\Cart;
+use App\Entity\Order;
 use Stripe\Customer;
-use Stripe\StripeClient;
 use Stripe\Checkout\Session;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StripeController extends AbstractController
 {
+    private $em;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+    
     /**
-     * @Route("/commande/create-session", name="app_stripe_create_session")
+     * @Route("/commande/create-session/{reference}", name="app_stripe_create_session")
      */
-    public function index(Cart $cart): Response
+    public function index(Cart $cart, string $reference): Response
     {
         $user = $this->getUser();
+
+        $order = $this->em->getRepository(Order::class)->findOneByReference($reference);
+
+        if (!$order) {
+            $this->addFlash('alert', 'Une Erreur c\'est produite');
+            return $this->redirectToRoute('app_order');
+        }
 
         // Quand on passera en production stripe ira chercher les images dans la vrai adresse
         // https://www.example_domain.com
@@ -35,21 +50,35 @@ class StripeController extends AbstractController
         // $storage_for_subscription ira dans line_items qui est dans Session::create
         $product_for_subscription = [];
 
-        foreach ($cart->getFull() as $key => $product) {
+        foreach ($order->getOrderDetails()->getValues() as $key => $orderDetail) {
 
+            
             // $product_for_subscription ira dans line_items qui est dans Session::create
             $product_for_subscription[] = [
                 'price_data' => [ // création du prix
                     'currency' => 'eur',
-                    'unit_amount' => $product['product']->getPrice(),
+                    'unit_amount' => $orderDetail->getPrice(),
                     'product_data' => [ // création du produit
-                        'name' => $product['product']->getName(),
-                        'images' => [$YOUR_DOMAIN  . '/uploads/images/' . $product['product']->getIllustration()]
+                        'name' => $orderDetail->getProduct(),
+                        'images' => [$YOUR_DOMAIN  . '/uploads/images/' . $orderDetail->getImage()]
                     ]
                 ],
-                'quantity' => $product['quantity'],
+                'quantity' => $orderDetail->getQuantity(),
             ];
         }
+
+        // Ajout du Transporteur
+        $product_for_subscription[] = [
+            'price_data' => [ // création du prix
+                'currency' => 'eur',
+                'unit_amount' => $order->getCarrierPrice() * 100,
+                'product_data' => [ // création du produit
+                    'name' => $order->getCarrierName(),
+                    // 'images' => [$YOUR_DOMAIN  . '/uploads/carrier/img.png']
+                ]
+            ],
+            'quantity' => 1,
+        ];
 
         // initialisation de stripe version 9.6
         Stripe::setApiKey('sk_test_51Lr0JGEIYZpSxSYQKxrBBaYuc1aEZjhoHKZiM54oUaU8IuxZmYDa5IQJCDaHn3NSjiZ2pKcyQLQK45CIXyLrg5mI00LzAh8spq');
@@ -65,8 +94,8 @@ class StripeController extends AbstractController
         // afficher les infos qu'on veut montrer à l'user
         // création de la session
         $checkout_session = Session::create([
-            'client_reference_id' => $customer->id,
-            'customer' => $customer->id,
+            // 'client_reference_id' => $customer->id,
+            // 'customer' => $customer->id,
             'line_items' => [[
                 $product_for_subscription
             ]],
