@@ -8,6 +8,8 @@
     <meta name="generator" content="Jekyll v4.1.1">
     <title> {% block title %} La Boutique Française - 100% France {% endblock %}</title>
 
+    {% block javascript %}{% endblock %}
+
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -134,7 +136,7 @@
     <p><small><a href="#">Privacy</a> &middot; <a href="#">Terms</a></small></p>
 </footer>
 {# <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> #}
-<script src="asset('assets/js/jquery-3.5.1.slim.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery-3.5.1.slim.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
 </body>
 <!-- FOOTER -->
