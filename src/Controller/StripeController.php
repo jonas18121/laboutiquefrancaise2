@@ -71,7 +71,7 @@ class StripeController extends AbstractController
         $product_for_subscription[] = [
             'price_data' => [ // création du prix
                 'currency' => 'eur',
-                'unit_amount' => $order->getCarrierPrice() * 100,
+                'unit_amount' => $order->getCarrierPrice(),
                 'product_data' => [ // création du produit
                     'name' => $order->getCarrierName(),
                     // 'images' => [$YOUR_DOMAIN  . '/uploads/carrier/img.png']
@@ -94,16 +94,20 @@ class StripeController extends AbstractController
         // afficher les infos qu'on veut montrer à l'user
         // création de la session
         $checkout_session = Session::create([
-            // 'client_reference_id' => $customer->id,
-            // 'customer' => $customer->id,
+            'client_reference_id' => $customer->id,
+            'customer' => $customer->id,
             'line_items' => [[
                 $product_for_subscription
             ]],
             'mode' => 'payment',
             'payment_method_types' => ['card'],
-            'success_url' => $YOUR_DOMAIN . '/commande/success/stripeSessionId={CHECKOUT_SESSION_ID}',
+            'success_url' => $YOUR_DOMAIN . '/commande/success/{CHECKOUT_SESSION_ID}',
             'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
+
+        $order->setStripeSessionId($checkout_session->id);
+        $this->em->persist($order);
+        $this->em->flush();
 
         // redirection vers Stripe
         return $this->redirect($checkout_session->url, 301);

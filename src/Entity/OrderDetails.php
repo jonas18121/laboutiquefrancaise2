@@ -48,6 +48,11 @@ class OrderDetails
      */
     private $image;
 
+    public function __toString()
+    {
+        return $this->getProduct() . ' X ' . $this->getQuantity();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
