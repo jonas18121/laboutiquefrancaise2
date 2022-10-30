@@ -52,7 +52,6 @@ class StripeController extends AbstractController
 
         foreach ($order->getOrderDetails()->getValues() as $key => $orderDetail) {
 
-            
             // $product_for_subscription ira dans line_items qui est dans Session::create
             $product_for_subscription[] = [
                 'price_data' => [ // création du prix
