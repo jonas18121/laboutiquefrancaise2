@@ -2,32 +2,37 @@
 
 namespace App\Classe;
 
+use Mailjet\Resources;
+
 class Mail
 {
-
-    public function send()
+    public function send($to_email, $to_name, $subjet, $content)
     {
-        $mj = new \Mailjet\Client(getenv('MJ_APIKEY_PUBLIC'), getenv('MJ_APIKEY_PRIVATE'),true,['version' => 'v3.1']);
+        $mj = new \Mailjet\Client(getenv('MAILJET_PUBLIC_KEY'), getenv('MAILJET_SECRET_KEY'),true,['version' => 'v3.1']);
         $body = [
             'Messages' => [
                 [
                     'From' => [
-                        'Email' => "pilot@mailjet.com",
-                        'Name' => "Mailjet Pilot"
+                        'Email' => "jonathandevelopper971@gmail.com",
+                        'Name' => "La Boutique française"
                     ],
                     'To' => [
                         [
-                            'Email' => "passenger1@mailjet.com",
-                            'Name' => "passenger 1"
+                            'Email' => $to_email,
+                            'Name' => $to_name
                         ]
                     ],
-                    'Subject' => "Your email flight plan!",
-                    'TextPart' => "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-                    'HTMLPart' => "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!"
+                    'TemplateID' => 4406445,
+                    'Subject' => $subjet,
+                    'TemplateLanguage' => true,
+                    'Variables' => [
+                        'content' => $content // c'est ici qu'on va envoyer le message personnaliser dans le template
+                    ],
                 ]
             ]
         ];
+
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success() && var_dump($response->getData());  
+        $response->success() && dd($response->getData());  
     }
 }
