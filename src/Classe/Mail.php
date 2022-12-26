@@ -23,8 +23,8 @@ class Mail
                         ]
                     ],
                     'TemplateID' => 4406445,
-                    'Subject' => $subjet,
                     'TemplateLanguage' => true,
+                    'Subject' => $subjet,
                     'Variables' => [
                         'content' => $content // c'est ici qu'on va envoyer le message personnaliser dans le template
                     ],
@@ -33,6 +33,6 @@ class Mail
         ];
 
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success() && dd($response->getData());  
+        $response->success() /*&& dump($response->getData())*/;  
     }
 }
