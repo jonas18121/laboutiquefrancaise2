@@ -86,7 +86,7 @@ class OrderController extends AbstractController
             $order->setCarrierName($carriers->getName());
             $order->setCarrierPrice($carriers->getPrice());
             $order->setDelivery($delivery_content);
-            $order->SetIsPaid(0);
+            $order->SetState(0);
 
             foreach ($cart->getFull() as $key => $product) {
                 $orderDetails = new OrderDetails();
