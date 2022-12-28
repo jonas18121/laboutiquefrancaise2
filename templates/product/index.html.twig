@@ -15,14 +15,7 @@
             <div class="row">
                 {% for product in products %}
                     <div class="col-md-4">
-                        <a href="{{ path('app_product', { 'slug' : product.slug } ) }}">
-                            <div class="product-item text-center">
-                                <img src="/uploads/images/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid"> 
-                                <h4>{{ product.name }}</h4>
-                                <span class="product-subtitle">{{ product.subtitle }}</span>
-                                <span class="product-price">{{ (product.price / 100)|number_format(2, ',', '.') }}€<span>
-                            </div>
-                        </a>
+                        {% include "product/list_products.html.twig" %}
                     </div>
                 {% endfor %}
             </div>
