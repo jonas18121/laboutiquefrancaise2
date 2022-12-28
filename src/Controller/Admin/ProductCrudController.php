@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 
 class ProductCrudController extends AbstractCrudController
@@ -34,6 +35,7 @@ class ProductCrudController extends AbstractCrudController
                 // ->onlyOnForms() Afficher l'image seulement dans le formulaire
             TextField::new('subtitle'),
             TextEditorField::new('description'),
+            BooleanField::new('isBest'),
             MoneyField::new('price')->setCurrency('EUR'),
             AssociationField::new('category')
         ];
