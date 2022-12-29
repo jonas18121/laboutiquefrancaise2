@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Classe\Mail;
 use App\Entity\Order;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -22,11 +23,17 @@ class OrderCrudController extends AbstractCrudController
 {
     private EntityManagerInterface $entityManager;
     private AdminUrlGenerator $adminUrlGenerator; // permet de gérer une url
+    private MailService $mailService;
 
-    public function __construct(EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator) 
+    public function __construct(
+        EntityManagerInterface $entityManager, 
+        AdminUrlGenerator $adminUrlGenerator,
+        MailService $mailService
+    ) 
     {
         $this->entityManager = $entityManager;   
         $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->mailService = $mailService;
     }
     
     public static function getEntityFqcn(): string
@@ -81,9 +88,11 @@ class OrderCrudController extends AbstractCrudController
             $this->addFlash('success', 'La commande ' . $order->getReference() . ' est en cours de préparation');
 
             // send mail
-            $mail = new Mail();
+            // $mail = new Mail();
+            // $content = 'Bonjour ' . $order->getUser()->getFirstname() . '<br> Votre commande est en cours de préparation';
+            // $mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstname(), 'Bienvenue sur la Boutique Française', $content);
             $content = 'Bonjour ' . $order->getUser()->getFirstname() . '<br> Votre commande est en cours de préparation';
-            $mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstname(), 'Bienvenue sur la Boutique Française', $content);
+            $this->mailService->prepareSend($order->getUser(), 'Bienvenue sur la Boutique Française', $content);
         }
 
         // Générer une URL
