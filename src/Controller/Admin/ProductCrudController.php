@@ -47,8 +47,8 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('name'),
             SlugField::new('slug')->setTargetFieldName('name'),
             ImageField::new('illustration')
-                ->setBasePath('uploads/images')
-                ->setUploadDir('public/uploads/images')
+                ->setBasePath('uploads/images/product')
+                ->setUploadDir('public/uploads/images/product')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
                 // ->onlyOnIndex() Afficher l'image seulement dans l'index
