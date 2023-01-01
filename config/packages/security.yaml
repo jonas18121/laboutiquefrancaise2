@@ -39,6 +39,8 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/compte, roles: ROLE_USER }
         - { path: ^/commande, roles: ROLE_USER }
+        - { path: ^/mot-de-passe-oublie, allow_if: "is_anonymous() and !is_authenticated()" } # uniquement les user non connecter peuvent accéder à cette page
+
 
 when@test:
     security:
