@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié - La boutique Française{% endblock %}
+
+{% block content %}
+
+<div class="block-small">
+    <form method="post">
+
+        <h1 class="h3 mb-3 font-weight-normal">Réinitialiser mon mot de passe</h1>
+        <label for="inputEmail">Votre email</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" placeholder="xxxx@xxxx.xxx" required autofocus>
+
+
+        <button class="btn btn-lg btn-info btn-block mt-3" type="submit">
+            Valider
+        </button>
+
+        <hr>
+
+        <p class="text-center">Connectez-vous <a href="{{ path('app_login') }}">ici</a></p>
+    </form>
+</div>
+
+{% endblock %}
